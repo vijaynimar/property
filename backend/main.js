@@ -11,5 +11,5 @@ app.use(router)
 
 app.listen(process.env.PORT,()=>{
     connection()
-    console.log(`server started at port ${process.env.PORT}`);
-})
+    console.log(`server started 🚀`);
+}) 
