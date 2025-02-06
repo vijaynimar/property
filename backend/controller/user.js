@@ -7,7 +7,7 @@ const redis=new Redis(process.env.redis_url)
 
 export const registration=async(req,res)=>{
     const{username,email,password,otp}=req.body
-    if(!username || !email  || !password || otp){
+    if(!username || !email  || !password || !otp){
         return res.status(404).json({msg:"all fields are required"})
     }
     try{
