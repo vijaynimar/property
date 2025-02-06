@@ -1,16 +1,27 @@
 import { user } from "../model/user.js";
+import { registerOtp } from "../model/registerOtp.js";
 import Redis from "ioredis";
 import argon2 from "argon2"
 const redis=new Redis()
 
 export const registration=async(req,res)=>{
-    const{username,email,password}=req.body
+    const{username,email,password,otp}=req.body
+    if(!username || !email  || !password || otp){
+        return res.status(404).json({msg:"all fields are required"})
+    }
     try{
         const userExist=await user.findOne({email})
         if(userExist){
             return res.status(400).json({msg:"user already exist"})
         }
         const hash=await argon2.hash(password)
+        const otpTrue=await registerOtp.findOne({email})
+        if(otp==otpTrue.otp){
+            await registerOtp.deleteOne({email})
+        }
+        else{
+            return res.status(404).json({msg:"wrong Otp"})
+        }
         const newUser=new user({
             username,
             email,
