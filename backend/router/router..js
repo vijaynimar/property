@@ -7,5 +7,5 @@ const router=Router()
 router.post("/sign-in",registration)
 router.post("/log-in",login)
 router.post("/otp-register",sendRegisterOtp)
-router.post("/uploadData",upload,sell)
+router.post("/uploadProperty",upload,sell)
 export {router}
