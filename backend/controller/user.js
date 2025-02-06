@@ -1,5 +1,6 @@
 import { user } from "../model/user.js";
 import { registerOtp } from "../model/registerOtp.js";
+import jwt from "jsonwebtoken"
 import Redis from "ioredis";
 import argon2 from "argon2"
 import "dotenv/config"
@@ -46,11 +47,34 @@ export const registration=async(req,res)=>{
 export const login=async(req,res)=>{
     
     const{email,password}=req.body
-    console.log(email);
+    if (!email || !password) {
+        return res.status(400).json({ msg: "Email and password are required" });
+    }
+    // console.log(email);
     try{
         const redisExist=await redis.get(email)
-        res.send(redisExist)
+        if(redisExist!==null){
+            const hashed=await argon2.verify(redisExist,password)
+            if(hashed){
+            const token=jwt.sign({email:email},process.env.jwt_key,{expiresIn:"2day"})
+            return res.status(200).json({token:token})
+            }else{
+                return res.status(401).json({msg:"Invalid credentials"})
+            }
+        }
+        const dbExist=await user.findOne({email})
+        if(!dbExist){
+            return res.status(404).json({msg:"User not exist"})
+        }
+        const hashed=await argon2.verify(dbExist.password,password)
+        if(hashed){
+        const token=jwt.sign({email:email},process.env.jwt_key,{expiresIn:"2day"})
+        return res.status(200).json({token:token})
+        }
+        return res.status(401).json({msg:"Invalid credentials"})
+
     }catch(err){
+        console.log(err);
         res.status(500).json({msg:"server error in login"})
     }
 }
