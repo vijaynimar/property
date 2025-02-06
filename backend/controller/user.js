@@ -2,7 +2,8 @@ import { user } from "../model/user.js";
 import { registerOtp } from "../model/registerOtp.js";
 import Redis from "ioredis";
 import argon2 from "argon2"
-const redis=new Redis()
+import "dotenv/config"
+const redis=new Redis(process.env.redis_url)
 
 export const registration=async(req,res)=>{
     const{username,email,password,otp}=req.body
@@ -27,7 +28,12 @@ export const registration=async(req,res)=>{
             email,
             password:hash
         })
-        await redis.set(email,hash)
+        const clientList = await redis.call('CLIENT', 'LIST');
+        const connections = clientList.split('\n');
+        const activeConnections = connections.length;
+        if (activeConnections <= 40) {
+            await redis.set(email, hash);   
+        }
         await newUser.save()
         res.status(200).json({msg:"registration sucessfully"})
     }catch(err){
