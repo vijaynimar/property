@@ -36,6 +36,7 @@ v2.config({
             return res.status(404).json({msg:"user not found"})
         }
         const uploadedUrls = [];
+        if(req.files){
         for (let i = 0; i < req.files.length; i++) {
         let x = await v2.uploader.upload(req.files[i].path);
         fs.unlink(req.files[i].path, (err) => {
@@ -45,6 +46,7 @@ v2.config({
         });
         uploadedUrls.push(x.secure_url);
     }
+} 
     const newProperty = new Property({
         userId: userExist._id, 
         title,
@@ -61,12 +63,12 @@ v2.config({
         breadth,
       });
       const addedProperty=await newProperty.save()
-      await newProperty.populate("userId").execPopulate()
+      await newProperty.populate("userId")
       const saleExist=await sale.findOne({email})
       if(saleExist){
         saleExist.properties.push(addedProperty._id.toHexString())
         await saleExist.save() 
-        await saleExist.populate("userId").execPopulate();
+        await saleExist.populate("userId")
       }else{
         const newSaller=new sale({
             userId:userExist._id,
