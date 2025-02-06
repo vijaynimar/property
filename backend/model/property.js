@@ -1,15 +1,13 @@
 import { Schema, model } from "mongoose";
 
 const propertySchema = new Schema({
-    username: {
+    userId: {
         type: Schema.Types.ObjectId, 
         required: true,
         ref: "user"
     },
     title: { type: String, required: true },
     price: { type: Number, required: true },
-    sell: [{ type: String }],
-    fav: [{ type: String }],
     imageUrls: [String],
     location: {
         type: { type: String, enum: ["Point"], required: true },
@@ -17,10 +15,11 @@ const propertySchema = new Schema({
     },
     category:{type:String,required:true},
     phone:{type:Number,required:true},
-    city: { type: String },
-    area: { type: Number },
-    rating: { type: Number },
-    count: { type: Number },
+    city: { type: String,required:true},
+    length:{type:Number,required:true},
+    breadth:{type:Number,required:true},
+    rating: { type: Number ,default:0},
+    count: { type: Number ,default:0},
 });
 
 propertySchema.index({ location: "2dsphere" });

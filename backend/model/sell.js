@@ -1,9 +1,12 @@
 import mongoose from "mongoose";
-const selling=new mongoose.Schema({
-    username: {
-        type: Schema.Types.ObjectId, 
+const sellingSchema=new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId, 
         required: true,
         ref: "user"
     },
     properties:[String]
 })
+
+const sale=mongoose.model("sale",sellingSchema)
+export {sale}

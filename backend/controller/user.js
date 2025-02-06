@@ -37,7 +37,7 @@ export const registration=async(req,res)=>{
         }
         const data=await newUser.save()
         console.log(data._id.toHexString())
-        res.status(200).json({msg:"registration sucessfully"})
+        res.status(201).json({msg:"registration sucessfully"})
     }catch(err){
         console.log(err);
         return res.status(500).json({msg:"server error in registration"})
