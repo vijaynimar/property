@@ -35,7 +35,8 @@ export const registration=async(req,res)=>{
         if (activeConnections <= 40) {
             await redis.set(email, hash);   
         }
-        await newUser.save()
+        const data=await newUser.save()
+        console.log(data._id.toHexString())
         res.status(200).json({msg:"registration sucessfully"})
     }catch(err){
         console.log(err);

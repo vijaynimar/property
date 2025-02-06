@@ -19,6 +19,7 @@ export const sendRegisterOtp=async(req,res)=>{
             await registerOtp.deleteOne({email})
         }
         const otp=crypto.randomInt(10000,100000)
+        console.log(otp);
         const mailOptions={
             to:email,
             subject:"OTP for Sign-In",
