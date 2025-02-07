@@ -13,9 +13,9 @@ v2.config({
   
 
   export const sell=async(req,res)=>{
-    const{title,price,category,phone,city,length,breadth,bhk,description,established}=req.body
+    const{title,price,category,coordinates,phone,city,length,breadth,bhk,description,established}=req.body
     const token=req.headers.authorization
-    if(!title || !price || !category || !phone || !city || !length || !breadth ||!bhk || !description ||!established){
+    if(!title || !price || !category || !coordinates||!phone || !city || !length || !breadth ||!bhk || !description ||!established){
         return res.status(401).json({msg:"All fields are required"})
     }
     if(!token){
@@ -52,10 +52,10 @@ v2.config({
         title,
         price,
         imageUrls:uploadedUrls,  
-        // location: {
-        //   type: "Point",
-        //   coordinates: coordinates,
-        // },
+        location: {
+          type: "Point",
+          coordinates: coordinates,
+        },
         category,
         phone,
         city,

@@ -9,10 +9,10 @@ const propertySchema = new Schema({
     title: { type: String, required: true },
     price: { type: Number, required: true },
     imageUrls: [String],
-    // location: {
-    //     type: { type: String, enum: ["Point"], required: true },
-    //     coordinates: [Number]
-    // },
+    location: {
+        type: { type: String, enum: ["Point"], required: true },
+        coordinates: [Number]
+    },
     category:{type:String,required:true},
     phone:{type:Number,required:true},
     established:{type:String , required:true},
