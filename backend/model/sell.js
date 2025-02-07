@@ -5,6 +5,7 @@ const sellingSchema=new mongoose.Schema({
         required: true,
         ref: "user"
     },
+    email:{type:String,required:true},
     properties:[String]
 })
 

@@ -13,7 +13,7 @@ v2.config({
   
 
   export const sell=async(req,res)=>{
-    const{title,price,coordinates,category,phone,city,length,breadth}=req.body
+    const{title,price,coordinates,category,phone,city,length,breadth,bhk,description,established}=req.body
     const token=req.headers.authorization
     if(!title || !price || !coordinates || !category || !phone || !city || !length || !breadth){
         return res.status(401).json({msg:"All fields are required"})
@@ -61,6 +61,9 @@ v2.config({
         city,
         length,
         breadth,
+        bhk,
+        established,
+        description
       });
       const addedProperty=await newProperty.save()
       await newProperty.populate("userId")
@@ -72,6 +75,7 @@ v2.config({
       }else{
         const newSaller=new sale({
             userId:userExist._id,
+            email:email,
             properties:[addedProperty._id.toHexString()]
         })
         await newSaller.save() 
