@@ -13,11 +13,14 @@ v2.config({
   
 
   export const sell=async(req,res)=>{
-    const{title,price,category,coordinates,phone,city,length,breadth,bhk,description,established}=req.body
+    const{title,price,category,longitude,latitude,phone,city,length,breadth,bhk,description,established}=req.body
     const token=req.headers.authorization
-    if(!title || !price || !category || !coordinates||!phone || !city || !length || !breadth ||!bhk || !description ||!established){
+    if(!title || !price || !category || !longitude ||!latitude ||!phone || !city || !length || !breadth ||!bhk || !description ||!established){
         return res.status(401).json({msg:"All fields are required"})
     }
+    const lon = parseFloat(longitude);
+    const lat = parseFloat(latitude);
+    const coordinates=[lon,lat]
     if(!token){
         return res.status(403).json({msg:"token required"})
     }
