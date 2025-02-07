@@ -15,7 +15,7 @@ v2.config({
   export const sell=async(req,res)=>{
     const{title,price,coordinates,category,phone,city,length,breadth,bhk,description,established}=req.body
     const token=req.headers.authorization
-    if(!title || !price || !coordinates || !category || !phone || !city || !length || !breadth){
+    if(!title || !price || !coordinates || !category || !phone || !city || !length || !breadth ||!bhk || !description ||!established){
         return res.status(401).json({msg:"All fields are required"})
     }
     if(!token){
