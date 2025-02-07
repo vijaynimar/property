@@ -11,7 +11,7 @@ const propertySchema = new Schema({
     imageUrls: [String],
     location: {
         type: { type: String, enum: ["Point"], required: true },
-        coordinates: { type: [Number], required: true }
+        coordinates: [Number]
     },
     category:{type:String,required:true},
     phone:{type:Number,required:true},
