@@ -27,6 +27,7 @@ v2.config({
     try{
         const decoded=jwt.verify(token,process.env.jwt_key)
         const email=decoded.email
+        console.log(email)
         const userExist=await user.findOne({email})
         if(!userExist){
             for (let i = 0; i < req.files.length; i++) {
